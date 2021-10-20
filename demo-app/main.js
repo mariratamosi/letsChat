@@ -1,9 +1,6 @@
-var messageController;
-
 window.addEventListener("DOMContentLoaded", (event) => {
   console.log("DOM fully loaded and parsed");
-  messageController = new MessageController();
-  messageController.getMessage();
+  MessageController.getMessage();
 
   const form = document.getElementById("msgForm");
   const msg = document.getElementById("msg");
@@ -13,24 +10,28 @@ window.addEventListener("DOMContentLoaded", (event) => {
     console.log("Submit");
     e.preventDefault();
     console.log(msg.value);
-    messageController.addMessage(name.value, msg.value);
-    messageController.postMessage(name.value, msg.value);
+    MessageController.postMessage(name.value, msg.value);
     msg.value = "";
   });
 });
 
 var socket = io(); //will connect to the same url socket
 
-var MessageController = function () {};
+socket.on("message", (data) => {
+  console.log(data);
+  MessageController.addMessage(data);
+});
 
-MessageController.prototype.addMessage = (user, message) => {
+function MessageController() {}
+
+MessageController.addMessage = ({ user, message }) => {
   const msg = document.getElementById("history");
   const div = document.createElement("div");
   div.append(`${user}: ${message}`);
   msg.append(div);
 };
 
-MessageController.prototype.getMessage = () => {
+MessageController.getMessage = () => {
   let _that = this;
 
   fetch("/messages")
@@ -40,15 +41,18 @@ MessageController.prototype.getMessage = () => {
     .then((res) => {
       console.log(_that);
       res.forEach((element) => {
-        messageController.addMessage(element.name, element.messages);
+        MessageController.addMessage({
+          name: element.name,
+          message: element.messages,
+        });
       });
     });
 };
 
-MessageController.prototype.postMessage = (name, msg) => {
+MessageController.postMessage = (name, msg) => {
   let data = {
-    name: name,
-    messages: msg,
+    user: name,
+    message: msg,
   };
   let config = {
     method: "POST",

@@ -4,6 +4,7 @@ var bodyParser = require("body-parser");
 var app = express();
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
+var { log } = require("util");
 
 app.use(express.static(path.join(__dirname, "demo-app")));
 
@@ -16,13 +17,12 @@ app.get("/messages", (req, res) => {
 app.post("/messages", (req, res) => {
   console.log(req.body);
   messages.push(req.body);
+  console.log(messages);
+  io.emit("message", req.body);
   res.sendStatus(200);
 });
 
-var messages = [
-  { name: "rim", messages: "billo" },
-  { name: "rim", messages: "billosdsa" },
-];
+var messages = [];
 
 io.on("connection", (socket) => {
   console.log("connected");
