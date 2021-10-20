@@ -24,6 +24,10 @@ var messages = [
   { name: "rim", messages: "billosdsa" },
 ];
 
+io.on("connection", (socket) => {
+  console.log("connected");
+});
+
 var server = http.listen(3000, () => {
   console.log("server starter");
 });

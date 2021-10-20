@@ -19,6 +19,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
   });
 });
 
+var socket = io(); //will connect to the same url socket
+
 var MessageController = function () {};
 
 MessageController.prototype.addMessage = (user, message) => {
