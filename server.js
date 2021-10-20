@@ -21,17 +21,27 @@ app.get("/messages", (req, res) => {
 app.post("/messages", (req, res) => {
   var message = new Message(req.body);
 
-  message.save((err) => {
-    console.log(err);
-    if (err) res.sendStatus(500);
-    else {
-      console.log(req.body);
-      messages.push(req.body);
-      console.log(messages);
+  message
+    .save()
+    .then(() => {
+      return Message.findOne({ message: "bad" });
+    })
+    .then((censored) => {
+      if (censored) {
+        console.log("censored", censored);
+        return Message.remove({ _id: censored.id });
+      }
+
       io.emit("message", req.body);
       res.sendStatus(200);
-    }
-  });
+    })
+    .then(() => {
+      console.log("done");
+    })
+    .catch((err) => {
+      console.log("err", err);
+      res.sendStatus(500);
+    });
 });
 
 var dbUrl =
