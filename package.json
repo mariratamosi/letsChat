@@ -19,6 +19,7 @@
   "license": "MIT",
   "description": "",
   "devDependencies": {
-    "jasmine": "3.10.0"
+    "jasmine": "3.10.0",
+    "request": "2.88.2"
   }
 }
