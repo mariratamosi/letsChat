@@ -14,8 +14,9 @@
   </head>
   <body>
     <form id="msgForm">
-      <input type="text" id="msg" />
-      <button type="submit">Submit form</button>
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="msg" placeholder="Your message"/>
+        <button type="submit">Submit form</button>
     </form>
     <div id="history"></messages>
 
@@ -56,12 +57,13 @@
         getMessage()
         const form = document.getElementById("msgForm");
         const msg = document.getElementById("msg");
+        const name = document.getElementById("name");
         form.addEventListener("submit", (e) => {
           console.log("Submit");
           e.preventDefault();
           console.log(msg.value);
-          addMessage("mita", msg.value)
-          postMessage("mita", msg.value)
+          addMessage(name.value, msg.value)
+          postMessage(name.value, msg.value)
           msg.value = "";
         });
 
