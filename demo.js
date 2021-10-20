@@ -1,3 +1,5 @@
-var _ = require("lodash");
+var fs = require("fs");
 
-console.log(_.random(1, 1000));
+fs.readFile("./data.json", "UTF-8", (err, data) => {
+  console.log(data);
+});
