@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "lodash": "4.17.21"
+  },
+  "name": "demo-chat",
+  "version": "1.0.0",
+  "main": "demo.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "rongrazzo@gmail.com <rongrazzo@gmail.com>",
+  "license": "MIT",
+  "description": ""
+}
