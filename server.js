@@ -18,30 +18,23 @@ app.get("/messages", (req, res) => {
   });
 });
 
-app.post("/messages", (req, res) => {
-  var message = new Message(req.body);
+app.post("/messages", async (req, res) => {
+  try {
+    var message = new Message(req.body);
 
-  message
-    .save()
-    .then(() => {
-      return Message.findOne({ message: "bad" });
-    })
-    .then((censored) => {
-      if (censored) {
-        console.log("censored", censored);
-        return Message.remove({ _id: censored.id });
-      }
+    await message.save();
 
-      io.emit("message", req.body);
-      res.sendStatus(200);
-    })
-    .then(() => {
-      console.log("done");
-    })
-    .catch((err) => {
-      console.log("err", err);
-      res.sendStatus(500);
-    });
+    var censored = await Message.findOne({ message: "bad" });
+
+    if (censored) await Message.remove({ _id: censored.id });
+    else io.emit("message", req.body);
+    res.sendStatus(200);
+  } catch (err) {
+    res.sendStatus(500);
+    return console.error(err);
+  } finally {
+    console.log("message post handled");
+  }
 });
 
 var dbUrl =

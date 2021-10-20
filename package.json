@@ -11,9 +11,14 @@
   "version": "1.0.0",
   "main": "demo.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine",
+    "start": "node server.js",
+    "watch": "nodemon server.js"
   },
   "author": "rongrazzo@gmail.com <rongrazzo@gmail.com>",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "jasmine": "3.10.0"
+  }
 }
