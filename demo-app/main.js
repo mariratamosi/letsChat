@@ -39,11 +39,11 @@ MessageController.getMessage = () => {
       return data.json();
     })
     .then((res) => {
-      console.log(_that);
+      console.log(res);
       res.forEach((element) => {
         MessageController.addMessage({
-          name: element.name,
-          message: element.messages,
+          user: element.user,
+          message: element.message,
         });
       });
     });
