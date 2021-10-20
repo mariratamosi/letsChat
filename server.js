@@ -1,10 +1,12 @@
+var path = require("path");
 var express = require("express");
 var bodyParser = require("body-parser");
 var app = express();
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, "demo-app")));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.get("/messages", (req, res) => {
@@ -12,9 +14,9 @@ app.get("/messages", (req, res) => {
 });
 
 app.post("/messages", (req, res) => {
-  //console.log(req);
+  console.log(req.body);
   messages.push(req.body);
-  res.send(200);
+  res.sendStatus(200);
 });
 
 var messages = [
